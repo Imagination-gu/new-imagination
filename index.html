@@ -318,6 +318,71 @@
     opacity: 1;
   }
 }
+@media (max-width: 600px) {
+  .fixed-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .fixed-header .welcome-text {
+    margin: 0 0 8px 0;
+    font-size: 0.9em;
+  }
+
+  .fixed-header .nav-links {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0;
+    font-size: 0.8em;
+  }
+
+  .content {
+    padding-top: 100px;
+  }
+
+  header img {
+    width: 80%;
+    max-width: 300px;
+  }
+
+  h1 {
+    font-size: 1.4em;
+    line-height: 1.4em;
+  }
+
+  .intro, .activities, .voices, .calendar, .instagram, .news {
+    padding: 15px;
+    margin: 20px 10px;
+    font-size: 0.95em;
+  }
+
+  .arrow {
+    font-size: 1.5em;
+    padding: 8px 12px;
+  }
+
+  .slider-container {
+    aspect-ratio: 4 / 3;
+    margin: 30px 10px;
+  }
+
+  .calendar th, .calendar td {
+    font-size: 0.85em;
+    padding: 6px;
+  }
+
+  .instagram p {
+    font-size: 1em;
+  }
+
+  #topBtn {
+    bottom: 20px;
+    right: 20px;
+    padding: 8px 12px;
+    font-size: 0.9em;
+  }
+}
 
   </style>
 </head>
