@@ -1,1 +1,485 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Imagination - Gakushuin Disney Circle</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #63e6be, #2c7be5);
+      color: white;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
 
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 15px 10px;
+      font-size: 1em;
+      font-weight: bold;
+      z-index: 999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .fixed-header .welcome-text {
+      margin-left: 10px;
+      white-space: nowrap;
+    }
+
+    .fixed-header .nav-links {
+  display: flex;
+  gap: 15px;
+  font-size: 0.9em;
+  margin-right: 10px;
+  margin-left: 50px; /* ← 追加 */
+}
+
+
+    .fixed-header .nav-links a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .content {
+      padding-top: 70px;
+    }
+
+    header img {
+      width: 250px;
+      max-width: 90%;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin: 0.5em 0;
+    }
+
+    .social-links a {
+      margin: 0 10px;
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .intro {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+      line-height: 1.8;
+    }
+
+    .slider-container {
+      max-width: 900px;
+      margin: 40px auto;
+      position: relative;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      border-radius: 16px;
+      background-color: #000;
+    }
+
+    .slider-wrapper {
+      display: flex;
+      transition: transform 1s ease-in-out;
+      height: 100%;
+    }
+
+    .slider-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      flex-shrink: 0;
+      aspect-ratio: 3 / 2;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2em;
+      background-color: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      z-index: 1;
+      border-radius: 50%;
+    }
+
+    .arrow.left {
+      left: 10px;
+    }
+
+    .arrow.right {
+      right: 10px;
+    }
+
+    footer {
+      margin-top: 30px;
+    }
+
+    footer .footer-inner {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px 10px;
+    }
+
+    footer p {
+      margin: 10px 0;
+    }
+
+    .activities, .voices, .calendar, .instagram, .news {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      text-align: left;
+    }
+
+    .activities h2,
+    .voices h2,
+    .calendar h2,
+    .instagram h2,
+    .news h2 {
+      font-size: 1.6em;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .activities ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .activities li::before {
+      content: "🎈 ";
+    }
+
+    .activities li {
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    .voices blockquote {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 15px;
+      margin: 15px 0;
+      border-left: 5px solid #ffd700;
+      border-radius: 8px;
+      font-style: italic;
+      opacity: 0.95;
+    }
+
+    .calendar table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .calendar th, .calendar td {
+      padding: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .calendar th {
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .instagram p {
+      text-align: center;
+      font-size: 1.1em;
+    }
+
+    .instagram a {
+      color: #ffd700;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .news ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .news li {
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    #topBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: rgba(0,0,0,0.6);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 1em;
+      border-radius: 30px;
+      cursor: pointer;
+      z-index: 999;
+    }
+    /* ナビゲーションリンクのホバー */
+.fixed-header .nav-links a {
+  transition: color 0.3s, transform 0.3s;
+}
+.fixed-header .nav-links a:hover {
+  color: #ffd700;
+  transform: scale(1.1);
+}
+
+/* スライダーの矢印ボタンのホバー */
+.arrow:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #000;
+  transform: scale(1.1);
+  transition: all 0.3s ease;
+}
+
+/* TOPボタンのホバー */
+#topBtn {
+  transition: background-color 0.3s, transform 0.3s;
+}
+#topBtn:hover {
+  background-color: #ffd700;
+  color: #000;
+  transform: scale(1.1);
+}
+
+/* 活動リストのホバー */
+.activities li {
+  transition: background-color 0.3s, padding-left 0.3s;
+}
+.activities li:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding-left: 10px;
+  border-radius: 8px;
+}
+
+/* ソーシャルリンク & Instagramリンクのホバー */
+.social-links a,
+.instagram a {
+  transition: color 0.3s, text-shadow 0.3s;
+}
+.social-links a:hover,
+.instagram a:hover {
+  color: #ff69b4;
+  text-shadow: 0 0 5px white;
+}
+
+/* ニュース項目のホバー */
+.news li {
+  transition: none !important;
+  transform: none !important;
+}
+.news li:hover {
+  transform: none !important;
+}
+
+.welcome-text {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.welcome-text:hover {
+  color: #ffd700;
+}
+.welcome-text {
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.welcome-text:hover {
+  color: #ffd700;
+}
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1.2s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="fixed-header">
+    <a href="#" class="welcome-text" onclick="location.href = location.pathname; return false;">
+      ようこそ！Imagination特設Webサイトへ！
+    </a>
+    <div class="nav-links">
+      <a href="#activities">活動</a>
+      <a href="#voices">メンバーの声</a>
+      <a href="#calendar">年間予定</a>
+      <a href="#instagram">Instagram</a>
+      <a href="#news">News</a>
+    </div>
+  </div>
+
+  <div class="content fade-in">
+    <header>
+      <img src="IMG_3203.jpg" alt="Imagination Logo" loading="lazy" />
+      <h1>GAKUSHUIN UNIVERSITY DISNEY CIRCLE<br>IMAGINATION</h1>
+      <div class="social-links">
+        <a href="https://x.com/donald64daisy66?fbclid=..." target="_blank">X (旧Twitter)</a>
+        <a href="https://www.instagram.com/64.imagination.66/" target="_blank">Instagram</a>
+      </div>
+    </header>
+
+    <section class="intro">
+      <p>
+        🏰学習院大生のためのディズニーサークル🏰<br>
+        学習院生による学習院生のためのディズニーサークルです！<br>
+        現在約100名、ディズニーが好き！という共通点を持った１〜４年生が集まっています！<br>
+        活動は主に月1回で自由参加型となっているため他団体と兼サーしながらお楽しみいただけます！<br>
+        入会希望の方はいつでもSNSからお気軽に✉️
+      </p>
+    </section>
+
+    <section class="slider-container">
+      <button class="arrow left" id="prevBtn">&lt;</button>
+      <div class="slider-wrapper" id="sliderWrapper">
+        <img src="DSC_8290-Enhanced-NR.jpg" alt="集合写真1" loading="lazy"/>
+        <img src="DSC_7955.jpg" alt="集合写真2" loading="lazy"/>
+        <img src="DSC_2429.jpg" alt="集合写真3" loading="lazy"/>
+        <img src="DSC_3194.jpg" alt="集合写真4" loading="lazy"/>
+      </div>
+      <button class="arrow right" id="nextBtn">&gt;</button>
+    </section>
+
+    <section class="activities" id="activities">
+      <h2>主な活動内容</h2>
+      <ul>
+        <li>🏰 年3〜4回のディズニーインパ</li>
+        <li>🎉 映画鑑賞</li>
+        <li>📷 ディズニー関連の展示会・イベント</li>
+        <li>💬 ディズニー雑談会などなど</li>
+      </ul>
+    </section>
+
+    <section class="voices" id="voices">
+      <h2>メンバーの声（サクラ）</h2>
+      <blockquote>「ディズニーがもっと好きになった！一緒に行ける仲間が増えて最高です✨」</blockquote>
+      <blockquote>「初心者でも気軽に参加できました！優しい人ばかりで安心です😊」</blockquote>
+    </section>
+
+    <section class="calendar" id="calendar">
+      <h2>年間イベント予定</h2>
+      <table>
+        <tr><th>月</th><th>イベント</th></tr>
+        <tr><td>4月</td><td>新歓お食事会</td></tr>
+        <tr><td>5月</td><td>パークツアー</td></tr>
+        <tr><td>6月</td><td>映画鑑賞</td></tr>
+        <tr><td>11月</td><td>学園祭</td></tr>
+        <tr><td>3月</td><td>追いコン</td></tr>
+      </table>
+    </section>
+
+    <section class="instagram" id="instagram">
+      <h2>Instagramで活動の様子をチェック！</h2>
+      <p>最新の投稿や写真は<a href="https://www.instagram.com/64.imagination.66/" target="_blank">Instagram</a>で公開中📷</p>
+    </section>
+
+    <section class="news" id="news">
+      <h2>最新ニュース</h2>
+      <ul>
+        <li><strong>2025/06/22：</strong>6月計画が始動！お楽しみに！🎢</li>
+        <li><strong>2025/06/02：</strong>部費の回収期間が始まりました！ご協力お願いします！🎬</li>
+        <li><strong>2025/05/18：</strong>ディズニーシーへインパしてきました！🎉</li>
+        <li><strong>2025/05/12：</strong>キャンパス内で新入生向けのオリエンテーションを行いました！🎢</li>
+        <li><strong>2025/04/27：</strong>レインフォレストカフェにて新歓食事会を行いました！</li>
+        <li><strong>2025/04/05：</strong>新歓イベントに80名以上が参加！ありがとうございました🎉</li>
+      </ul>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <p>&copy; 2025 Imagination. All rights reserved.</p>
+        <div class="social-links">
+          <a href="https://x.com/donald64daisy66?fbclid=..." target="_blank">X</a>
+          |
+          <a href="https://www.instagram.com/64.imagination.66/" target="_blank">Instagram</a>
+        </div>
+      </div>
+    </footer>
+
+    <button id="topBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">TOP</button>
+  </div>
+
+  <script>
+    const slider = document.getElementById("sliderWrapper");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const totalSlides = slider.children.length;
+    let currentIndex = 0;
+    let autoSlideTimeout;
+
+    function updateSlider() {
+      const translateX = -100 * currentIndex;
+      slider.style.transform = `translateX(${translateX}%)`;
+    }
+
+    function resetAutoSlide() {
+      clearTimeout(autoSlideTimeout);
+      autoSlideTimeout = setTimeout(autoSlide, 5000);
+    }
+
+    function autoSlide() {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateSlider();
+      resetAutoSlide();
+    }
+
+    nextBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateSlider();
+      resetAutoSlide();
+    });
+
+    prevBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      updateSlider();
+      resetAutoSlide();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        updateSlider();
+        resetAutoSlide();
+      } else if (e.key === "ArrowRight") {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlider();
+        resetAutoSlide();
+      }
+    });
+
+    updateSlider();
+    resetAutoSlide();
+    window.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('.content').classList.add('fade-in');
+});
+
+  </script>
+</body>
+</html>
